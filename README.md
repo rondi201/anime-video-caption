@@ -16,6 +16,35 @@
 
 Собранный набор данных из 614 произведений можно загрузить [здесь](https://drive.google.com/file/d/1ujlUoBU4QYXx06d_Yp_zEnpx_VaxlTFp/view?usp=sharing).
 
+## Окружение
+
+Для запуска обучения необходимо настроить окружение среды следующим образом.
+
+1. Установить Pytorch
+```shell
+pip install torch --index-url https://download.pytorch.org/whl/cu128
+```
+2. Установить библиотеки
+```shell
+pip install -r requirements.txt
+```
+3. Установить flash attention
+
+- Linux
+```shell
+pip install flash-attn --no-build-isolation
+```
+- Windows
+
+Загрузить собранный образ из https://github.com/Dao-AILab/flash-attention/releases 
+(к прим. `flash_attn-2.7.4.post1+cu128torch2.7.0cxx11abiFALSE-cp312-cp312-win_amd64.whl`) и установить следующей командой
+```shell
+pip install --no-dependencies --upgrade .\flash_attn-2.7.4.post1+cu128torch2.7.0cxx11abiFALSE-cp312-cp312-win_amd64.whl
+```
+
+Окружение для сбора набора данных описано [здесь](src_dataset_creator/README.md). 
+
+
 ## Обучение
 
 Для обучения на собранном наборе данных была использована модель [SmolVLM2](https://huggingface.co/HuggingFaceTB/SmolVLM2-500M-Video-Instruct).
