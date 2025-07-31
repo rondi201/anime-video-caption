@@ -1,0 +1,87 @@
+shiki_dataset:
+  _target_: core.shikimori_gql_dataloader.ShikimoriGQLOnlineDataloader
+  url: https://shikimori.one/api/graphql
+  batch_size: 12
+  query: >
+    query getAnumeList($page: PositiveInt, $limit: PositiveInt) {
+      animes(
+          page: $page
+          limit: $limit
+          order: popularity
+          kind: "tv"
+          status: "released"
+          rating: "g,pg,pg_13"
+          censored: true
+          score: 7
+      ) {
+          id
+          malId
+          name
+          russian
+          english
+          kind
+          rating
+          score
+          status
+          episodes
+          duration
+          releasedOn {
+              year
+              month
+              day
+              date
+          }
+          url
+          isCensored
+          genres {
+              name
+              russian
+          }
+          characterRoles {
+              rolesEn
+              character {
+                  id
+                  name
+              }
+          }
+          related {
+              anime {
+                  id
+                  name
+                  releasedOn {
+                      year
+                      month
+                      day
+                      date
+                  }
+                  status
+              }
+              relationKind
+          }
+          scoresStats {
+              score
+              count
+          }
+      }
+    }
+
+mal_data_grabber:
+  _target_: core.mal_data_grabber.MALAnimeDataGrabber
+  client_id: ${oc.env:MYANIMELIST_CLIENT_ID}
+  url: https://api.myanimelist.net/v2
+
+
+kodik_downloader:
+  _target_: core.kodik_fast_downloader.KodikFastDownloader
+  tmp_root: tmp
+
+anime_filters:
+  - _target_: core.anime_filters.FirstSeasonAnimeFilter
+
+max_samples: 650
+save_root: dataset/anime_dataset
+fps: 0.16
+with_audio: false
+quality: "720"
+num_workers: 2
+update_annotation: true
