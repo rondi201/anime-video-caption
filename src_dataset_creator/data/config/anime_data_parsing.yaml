@@ -1,6 +1,9 @@
+# Файл настроек запуска tools/anime_data_parsing.py
+# Доступные для редактирования параметры сопровождены описанием
+
 shiki_dataset:
   _target_: core.shikimori_gql_dataloader.ShikimoriGQLOnlineDataloader
-  url: https://shikimori.one/api/graphql
+  url: https://shikimori.one/api/graphql  # Ссылка на GraphQLAPI Shikimori
   batch_size: 12
   query: >
     query getAnumeList($page: PositiveInt, $limit: PositiveInt) {
@@ -67,8 +70,8 @@ shiki_dataset:
 
 mal_data_grabber:
   _target_: core.mal_data_grabber.MALAnimeDataGrabber
-  client_id: ${oc.env:MYANIMELIST_CLIENT_ID}
-  url: https://api.myanimelist.net/v2
+  client_id: ${oc.env:MYANIMELIST_CLIENT_ID}  # client_id собственного приложения MyAnimeList
+  url: https://api.myanimelist.net/v2  # Ссылка на MyAnimeList API
 
 
 kodik_downloader:
@@ -78,10 +81,10 @@ kodik_downloader:
 anime_filters:
   - _target_: core.anime_filters.FirstSeasonAnimeFilter
 
-max_samples: 650
-save_root: dataset/anime_dataset
-fps: 0.16
-with_audio: false
-quality: "720"
-num_workers: 2
-update_annotation: true
+max_samples: 650  # Максимальное количество собранных аниме - сбор происходит в порядке убывания популярности
+save_root: dataset/anime_dataset  # Путь сохранения набора данных
+fps: 0.16  # Сохраняемая частота кадров скачиваемых видео
+with_audio: false  # Сохранять ли аудиодорожку в видео (если да - будет озвучка на русском языке)
+quality: "720"  # Желаемое качество видео (если качество не доступно - аниме пропускается) - доступно "480", "720"
+num_workers: 2  # Количество параллельно работающих обработчиков для получения данных - не рекомендуется увеличивать во избежание блокировки со стороны API
+update_annotation: true  # Производить ли дозапись в существующие данные
